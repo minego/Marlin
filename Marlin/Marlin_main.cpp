@@ -3409,11 +3409,6 @@ inline void gcode_G28() {
   // Wait for planner moves to finish!
   stepper.synchronize();
 
-  // For auto bed leveling, clear the level matrix
-  #if HAS_ABL
-    reset_bed_level();
-  #endif
-
   // Always home with tool 0 active
   #if HOTENDS > 1
     uint8_t old_tool_index = active_extruder;
@@ -3974,6 +3969,8 @@ inline void gcode_G28() {
       }
 
     #endif // ABL_GRID
+
+    reset_bed_level();
 
     stepper.synchronize();
 

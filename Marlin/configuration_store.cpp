@@ -36,7 +36,7 @@
  *
  */
 
-#define EEPROM_VERSION "V27"
+#define EEPROM_VERSION "V28"
 
 // Change EEPROM version if these are changed:
 #define EEPROM_OFFSET 100
@@ -117,7 +117,14 @@
  *  426  M200 D    volumetric_enabled (bool)
  *  427  M200 T D  filament_size (float x4) (T0..3)
  *
- *  443  This Slot is Available!
+ * Bilinear Bed Levelling
+ *  445            grid_points_x (uint8 as set in firmware)
+ *  446            grid_points_y (uint8 as set in firmware)
+ *  447            grid_spacing (2 ints)
+ *  451            grid_start (2 ints)
+ *  455 G29 S3 XYZ z_values[][] (9x9=81 floats, by default)
+ *
+ *  779  This Slot is Available!
  *
  */
 #include "Marlin.h"
@@ -356,6 +363,33 @@ void Config_Postprocess() {
       EEPROM_WRITE(dummy);
     }
 
+    #if ENABLED(AUTO_BED_LEVELING_BILINEAR)
+      // Compile time test that bed_level_grid is the expected size
+      typedef char c_assert[(sizeof(bed_level_grid) == (ABL_GRID_POINTS_X * ABL_GRID_POINTS_Y) * sizeof(float)) ? 1 : -1];
+      uint8_t grid_points_x = ABL_GRID_POINTS_X;
+      uint8_t grid_points_y = ABL_GRID_POINTS_Y;
+      EEPROM_WRITE(grid_points_x);
+      EEPROM_WRITE(grid_points_y);
+      EEPROM_WRITE(bilinear_grid_spacing);
+      EEPROM_WRITE(bilinear_start);
+      for (uint8_t y=0; y<grid_points_y; y++)
+        for (uint8_t x=0; x<grid_points_x; x++)
+          EEPROM_WRITE(bed_level_grid[x][y]); 
+    #else
+      // When bilinear bed levelling is disabled, write dummy data
+      uint8_t grid_points_x = ABL_GRID_POINTS_X;
+      uint8_t grid_points_y = ABL_GRID_POINTS_Y;
+      int dummy_grid_spacing[2] = { 0 };
+      int dummy_start[2] = { 0 };
+      float dummy = 0.0f;
+      EEPROM_WRITE(grid_points_x);
+      EEPROM_WRITE(grid_points_y);
+      EEPROM_WRITE(dummy_grid_spacing);
+      EEPROM_WRITE(dummy_start);
+      for (uint8_t i = 0; i < grid_points_x * grid_points_y; i++)
+        EEPROM_WRITE(dummy);
+    #endif // AUTO_BED_LEVELING_BILINEAR
+
     uint16_t final_checksum = eeprom_checksum,
              eeprom_size = eeprom_index;
 
@@ -537,6 +571,38 @@ void Config_Postprocess() {
         if (q < COUNT(filament_size)) filament_size[q] = dummy;
       }
 
+      // Read the AUTO_BED_LEVELING_BILINEAR data
+      uint8_t grid_points_x = 0;
+      uint8_t grid_points_y = 0;
+      EEPROM_READ(grid_points_x);
+      EEPROM_READ(grid_points_y); 
+      #if ENABLED(AUTO_BED_LEVELING_BILINEAR)
+        EEPROM_READ(bilinear_grid_spacing);
+        EEPROM_READ(bilinear_start);
+        if ( (grid_points_x == ABL_GRID_POINTS_X) &&
+             (grid_points_y == ABL_GRID_POINTS_Y)
+        ) {
+            // EEPROM data is the expected size, read the whole matrix
+            for (uint8_t y=0; y<grid_points_y; y++)
+              for (uint8_t x=0; x<grid_points_x; x++)
+                EEPROM_READ(bed_level_grid[x][y]);
+        } else {
+          // EEPROM data is stale
+          reset_bed_level();
+          // skip the matrix
+          for (uint8_t i = 0; i < grid_points_x * grid_points_y; i++)
+            EEPROM_READ(dummy);
+        }
+      #else
+        // bilinear levelling is disabled: skip the stored data
+        int dummy_array[2];
+        EEPROM_READ(dummy_array); // bilinear grid spacing
+        EEPROM_READ(dummy_array); // bilinear start
+        // skip the matrix
+        for (uint8_t i = 0; i < grid_points_x * grid_points_y; i++)
+          EEPROM_READ(dummy);
+      #endif // AUTO_BED_LEVELING_BILINEAR
+
       if (eeprom_checksum == stored_checksum) {
         Config_Postprocess();
         SERIAL_ECHO_START;
@@ -685,6 +751,10 @@ void Config_ResetDefault() {
   volumetric_enabled = false;
   for (uint8_t q = 0; q < COUNT(filament_size); q++)
     filament_size[q] = DEFAULT_NOMINAL_FILAMENT_DIA;
+
+  #if ENABLED(AUTO_BED_LEVELING_BILINEAR)
+    reset_bed_level();
+  #endif
 
   endstops.enable_globally(
     #if ENABLED(ENDSTOPS_ALWAYS_ON_DEFAULT)
@@ -1016,6 +1086,23 @@ void Config_ResetDefault() {
       CONFIG_ECHO_START;
       SERIAL_ECHOLNPGM("  M200 D0");
     }
+
+    #if ENABLED(AUTO_BED_LEVELING_BILINEAR)
+      if (!forReplay) {
+        SERIAL_ECHOLNPGM("Bilinear bed leveling:");
+        CONFIG_ECHO_START;
+      }
+      SERIAL_ECHOPAIR(" X", ABL_GRID_POINTS_X);
+      SERIAL_ECHOPAIR(" Y", ABL_GRID_POINTS_Y);
+      SERIAL_EOL;
+      for (uint8_t py = 1; py <= ABL_GRID_POINTS_Y; py++) {
+        for (uint8_t px = 1; px <= ABL_GRID_POINTS_X; px++) {
+          SERIAL_PROTOCOL_F(bed_level_grid[px-1][py-1], 2);
+          SERIAL_ECHO(" ");
+        }
+        SERIAL_EOL;
+      }
+    #endif
 
     /**
      * Auto Bed Leveling
