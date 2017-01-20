@@ -441,7 +441,7 @@
   #define DELTA_SMOOTH_ROD_OFFSET 151.0 // mm
 
   // Horizontal offset of the universal joints on the end effector.
-  #define DELTA_EFFECTOR_OFFSET 31 // mm
+  #define DELTA_EFFECTOR_OFFSET 31.0 // mm
 
   // Horizontal offset of the universal joints on the carriages.
   #define DELTA_CARRIAGE_OFFSET 20.6 // mm
@@ -970,7 +970,6 @@
 #define MANUAL_Y_HOME_POS 0
 // Distance between the nozzle to printbed after homing
 // This is for heated bed on custom mounting blocks
-// http://www.thingiverse.com/thing:1982435
 #define MANUAL_Z_HOME_POS 323.4
 
 // Use "Z Safe Homing" to avoid homing with a Z probe outside the bed area.
