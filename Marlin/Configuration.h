@@ -765,7 +765,7 @@
 //
 // For M851 give a range for adjusting the Z probe offset
 //
-#define Z_PROBE_OFFSET_RANGE_MIN -20
+#define Z_PROBE_OFFSET_RANGE_MIN -30
 #define Z_PROBE_OFFSET_RANGE_MAX 20
 
 // For Inverting Stepper Enable Pins (Active Low) use 0, Non Inverting (Active High) use 1
