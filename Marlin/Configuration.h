@@ -438,15 +438,14 @@
   #define DELTA_DIAGONAL_ROD 217.0 // mm
 
   // Horizontal offset from middle of printer to smooth rod center.
-  //#define DELTA_SMOOTH_ROD_OFFSET 151.0 // mm
-  //#define DELTA_SMOOTH_ROD_OFFSET 150.8 // mm
-  #define DELTA_SMOOTH_ROD_OFFSET 149.0 // mm
+  #define DELTA_SMOOTH_ROD_OFFSET 161.1 // mm
 
   // Horizontal offset of the universal joints on the end effector.
   #define DELTA_EFFECTOR_OFFSET 31.0 // mm
 
   // Horizontal offset of the universal joints on the carriages.
-  #define DELTA_CARRIAGE_OFFSET 20.6 // mm
+  //#define DELTA_CARRIAGE_OFFSET 20.6 // mm
+  #define DELTA_CARRIAGE_OFFSET 32.0 // mm
 
   // Horizontal distance bridged by diagonal push rods when effector is centered.
   #define DELTA_RADIUS (DELTA_SMOOTH_ROD_OFFSET-(DELTA_EFFECTOR_OFFSET)-(DELTA_CARRIAGE_OFFSET))
@@ -465,7 +464,6 @@
   #define DELTA_HOME_TO_SAFE_ZONE
 
   //#define DELTA_ENDSTOP_ADJ { 0, 0, 0 }
-
 #endif
 
 // Enable this option for Toshiba steppers
@@ -643,7 +641,7 @@
 // Offsets for http://www.thingiverse.com/thing:1976680 version 2
 #define X_PROBE_OFFSET_FROM_EXTRUDER 0       // X offset: -left  +right  [of the nozzle]
 #define Y_PROBE_OFFSET_FROM_EXTRUDER -33     // Y offset: -front +behind [the nozzle]
-#define Z_PROBE_OFFSET_FROM_EXTRUDER -2.0    // Z offset: -below +above  [the nozzle]
+#define Z_PROBE_OFFSET_FROM_EXTRUDER -1.8    // Z offset: -below +above  [the nozzle]
 
 // X and Y axis travel speed (mm/m) between probes
 #define XY_PROBE_SPEED 2000
