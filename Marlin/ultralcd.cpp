@@ -89,9 +89,9 @@ uint8_t lcdDrawUpdate = LCDVIEW_CLEAR_CALL_REDRAW; // Set when the LCD needs to 
    * and is disabled in other contexts.
    */
   #if ENABLED(REVERSE_MENU_DIRECTION)
-    int8_t encoderDirection = 1;
-    #define ENCODER_DIRECTION_NORMAL() (encoderDirection = 1)
-    #define ENCODER_DIRECTION_MENUS() (encoderDirection = -1)
+    int8_t encoderDirection = -1;
+    #define ENCODER_DIRECTION_NORMAL() (encoderDirection = -1)
+    #define ENCODER_DIRECTION_MENUS() (encoderDirection = 1)
   #else
     #define ENCODER_DIRECTION_NORMAL() ;
     #define ENCODER_DIRECTION_MENUS() ;
