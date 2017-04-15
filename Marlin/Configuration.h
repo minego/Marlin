@@ -438,8 +438,9 @@
   #define DELTA_DIAGONAL_ROD 217.0 // mm
 
   // Horizontal offset from middle of printer to smooth rod center.
-//  #define DELTA_SMOOTH_ROD_OFFSET 151.0 // mm
-  #define DELTA_SMOOTH_ROD_OFFSET 149.1 // mm
+  //#define DELTA_SMOOTH_ROD_OFFSET 151.0 // mm
+  //#define DELTA_SMOOTH_ROD_OFFSET 150.8 // mm
+  #define DELTA_SMOOTH_ROD_OFFSET 149.0 // mm
 
   // Horizontal offset of the universal joints on the end effector.
   #define DELTA_EFFECTOR_OFFSET 31.0 // mm
@@ -458,7 +459,7 @@
   // See http://minow.blogspot.com/index.html#4918805519571907051
   // If needed, adjust the X, Y, Z calibration coordinates
   // in ultralcd.cpp@lcd_delta_calibrate_menu()
-  //#define DELTA_CALIBRATION_MENU
+  // #define DELTA_CALIBRATION_MENU
 
   // After homing move down to a height where XY movement is unconstrained
   #define DELTA_HOME_TO_SAFE_ZONE
@@ -640,9 +641,9 @@
 //#define Y_PROBE_OFFSET_FROM_EXTRUDER 29    // Y offset: -front +behind [the nozzle]
 //#define Z_PROBE_OFFSET_FROM_EXTRUDER -2.7  // Z offset: -below +above  [the nozzle]
 // Offsets for http://www.thingiverse.com/thing:1976680 version 2
-#define X_PROBE_OFFSET_FROM_EXTRUDER -20       // X offset: -left  +right  [of the nozzle]
-#define Y_PROBE_OFFSET_FROM_EXTRUDER 5       // Y offset: -front +behind [the nozzle]
-#define Z_PROBE_OFFSET_FROM_EXTRUDER -1.0   // Z offset: -below +above  [the nozzle]
+#define X_PROBE_OFFSET_FROM_EXTRUDER 0       // X offset: -left  +right  [of the nozzle]
+#define Y_PROBE_OFFSET_FROM_EXTRUDER -33     // Y offset: -front +behind [the nozzle]
+#define Z_PROBE_OFFSET_FROM_EXTRUDER -2.0    // Z offset: -below +above  [the nozzle]
 
 // X and Y axis travel speed (mm/m) between probes
 #define XY_PROBE_SPEED 2000
@@ -915,7 +916,7 @@
   #define ABL_GRID_POINTS_Y ABL_GRID_POINTS_X
 
   // Set the boundaries for probing (where the probe can reach).
-  #define DELTA_PROBEABLE_RADIUS (DELTA_PRINTABLE_RADIUS - 40)
+  #define DELTA_PROBEABLE_RADIUS (DELTA_PRINTABLE_RADIUS - 60)
   #define LEFT_PROBE_BED_POSITION -(DELTA_PROBEABLE_RADIUS)
   #define RIGHT_PROBE_BED_POSITION DELTA_PROBEABLE_RADIUS
   #define FRONT_PROBE_BED_POSITION -(DELTA_PROBEABLE_RADIUS)
@@ -934,10 +935,10 @@
     // The height can be set with M420 Z<height>
     #define ENABLE_LEVELING_FADE_HEIGHT
 
-    // 
+    //
     // Experimental Subdivision of the grid by Catmull-Rom method.
     // Synthesizes intermediate points to produce a more detailed mesh.
-    // 
+    //
     //#define ABL_BILINEAR_SUBDIVISION
     #if ENABLED(ABL_BILINEAR_SUBDIVISION)
       // Number of subdivisions between probe points
@@ -978,7 +979,7 @@
 // Distance between the nozzle to printbed after homing
 // This is for heated bed on custom mounting blocks
 // #define MANUAL_Z_HOME_POS 323.4
-#define MANUAL_Z_HOME_POS 329.35
+#define MANUAL_Z_HOME_POS 326.00
 
 // Use "Z Safe Homing" to avoid homing with a Z probe outside the bed area.
 //
@@ -1012,7 +1013,7 @@
 // M501 - reads parameters from EEPROM (if you need reset them after you changed them temporarily).
 // M502 - reverts to the default "factory settings".  You still need to store them in EEPROM afterwards if you want to.
 //define this to enable EEPROM support
-#define EEPROM_SETTINGS
+//#define EEPROM_SETTINGS
 
 #if ENABLED(EEPROM_SETTINGS)
   // To disable EEPROM Serial responses and decrease program space by ~1700 byte: comment this out:
