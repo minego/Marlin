@@ -1,3 +1,12 @@
+HARDWARE_MOTHERBOARD	= 33
+ARDUINO_INSTALL_DIR		= ./arduino-1.8.1
+ARDUINO_VERSION			= 10801
+UPLOAD_RATE				= 115200
+AVRDUDE_PROGRAMMER		= wiring
+
+# I prefer typing install instead of upload
+install: upload
+
 # Sprinter Arduino Project Makefile
 #
 # Makefile Based on:
