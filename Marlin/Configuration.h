@@ -440,7 +440,7 @@
   // Horizontal offset from middle of printer to smooth rod center.
   //#define DELTA_SMOOTH_ROD_OFFSET 151.0 // mm
   //#define DELTA_SMOOTH_ROD_OFFSET 150.8 // mm
-  #define DELTA_SMOOTH_ROD_OFFSET 149.0 // mm
+  #define DELTA_SMOOTH_ROD_OFFSET 148.8 // mm
 
   // Horizontal offset of the universal joints on the end effector.
   #define DELTA_EFFECTOR_OFFSET 31.0 // mm
@@ -1013,7 +1013,7 @@
 // M501 - reads parameters from EEPROM (if you need reset them after you changed them temporarily).
 // M502 - reverts to the default "factory settings".  You still need to store them in EEPROM afterwards if you want to.
 //define this to enable EEPROM support
-//#define EEPROM_SETTINGS
+#define EEPROM_SETTINGS
 
 #if ENABLED(EEPROM_SETTINGS)
   // To disable EEPROM Serial responses and decrease program space by ~1700 byte: comment this out:
