@@ -20,6 +20,9 @@
  *
  */
 
+// Adjustments based on: http://escher3d.com/pages/wizards/wizarddelta.php
+// M666 X0.33 Y-1.58 Z1.32 R98.00 D217.00 H326.40 A1.05 B0.35 C0.00
+
 /**
  * Configuration.h
  *
@@ -826,7 +829,7 @@
 // Travel limits after homing (units are in mm)
 #define X_MIN_POS -(DELTA_PRINTABLE_RADIUS)
 #define Y_MIN_POS -(DELTA_PRINTABLE_RADIUS)
-#define Z_MIN_POS 0
+#define Z_MIN_POS -3
 #define X_MAX_POS DELTA_PRINTABLE_RADIUS
 #define Y_MAX_POS DELTA_PRINTABLE_RADIUS
 #define Z_MAX_POS MANUAL_Z_HOME_POS
@@ -979,7 +982,7 @@
 // Distance between the nozzle to printbed after homing
 // This is for heated bed on custom mounting blocks
 // #define MANUAL_Z_HOME_POS 323.4
-#define MANUAL_Z_HOME_POS 326.00
+#define MANUAL_Z_HOME_POS 326.34
 
 // Use "Z Safe Homing" to avoid homing with a Z probe outside the bed area.
 //
