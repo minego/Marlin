@@ -36,7 +36,9 @@
  *
  */
 
-#define EEPROM_VERSION "V28"
+// My offsets do not match
+// #define EEPROM_VERSION "V28"
+#define EEPROM_VERSION "Z28"
 
 // Change EEPROM version if these are changed:
 #define EEPROM_OFFSET 100
@@ -81,48 +83,52 @@
  *  289  M665 A    delta_diagonal_rod_trim_tower_1 (float)
  *  293  M665 B    delta_diagonal_rod_trim_tower_2 (float)
  *  297  M665 C    delta_diagonal_rod_trim_tower_3 (float)
+ *  301  M665 I    delta_angle_trim_tower_1 (float)
+ *  305  M665 J    delta_angle_trim_tower_2 (float)
+ *  309  M665 K    delta_angle_trim_tower_3 (float)
  *
  * Z_DUAL_ENDSTOPS:
- *  301  M666 Z    z_endstop_adj (float)
+ *  313  M666 Z    z_endstop_adj (float)
  *
  * ULTIPANEL:
- *  305  M145 S0 H lcd_preheat_hotend_temp (int x2)
- *  309  M145 S0 B lcd_preheat_bed_temp (int x2)
- *  313  M145 S0 F lcd_preheat_fan_speed (int x2)
+ *  317  M145 S0 H lcd_preheat_hotend_temp (int x2)
+ *  321  M145 S0 B lcd_preheat_bed_temp (int x2)
+ *  325  M145 S0 F lcd_preheat_fan_speed (int x2)
  *
+// todo add 12 to remaining offsets
  * PIDTEMP:
- *  317  M301 E0 PIDC  Kp[0], Ki[0], Kd[0], Kc[0] (float x4)
- *  333  M301 E1 PIDC  Kp[1], Ki[1], Kd[1], Kc[1] (float x4)
- *  349  M301 E2 PIDC  Kp[2], Ki[2], Kd[2], Kc[2] (float x4)
- *  365  M301 E3 PIDC  Kp[3], Ki[3], Kd[3], Kc[3] (float x4)
- *  381  M301 L        lpq_len (int)
+ *  329  M301 E0 PIDC  Kp[0], Ki[0], Kd[0], Kc[0] (float x4)
+ *  345  M301 E1 PIDC  Kp[1], Ki[1], Kd[1], Kc[1] (float x4)
+ *  361  M301 E2 PIDC  Kp[2], Ki[2], Kd[2], Kc[2] (float x4)
+ *  377  M301 E3 PIDC  Kp[3], Ki[3], Kd[3], Kc[3] (float x4)
+ *  393  M301 L        lpq_len (int)
  *
  * PIDTEMPBED:
- *  383  M304 PID  thermalManager.bedKp, thermalManager.bedKi, thermalManager.bedKd (float x3)
+ *  395  M304 PID  thermalManager.bedKp, thermalManager.bedKi, thermalManager.bedKd (float x3)
  *
  * DOGLCD:
- *  395  M250 C    lcd_contrast (int)
+ *  407  M250 C    lcd_contrast (int)
  *
  * FWRETRACT:
- *  397  M209 S    autoretract_enabled (bool)
- *  398  M207 S    retract_length (float)
- *  402  M207 W    retract_length_swap (float)
- *  406  M207 F    retract_feedrate_mm_s (float)
- *  410  M207 Z    retract_zlift (float)
- *  414  M208 S    retract_recover_length (float)
- *  418  M208 W    retract_recover_length_swap (float)
- *  422  M208 F    retract_recover_feedrate_mm_s (float)
+ *  419  M209 S    autoretract_enabled (bool)
+ *  410  M207 S    retract_length (float)
+ *  414  M207 W    retract_length_swap (float)
+ *  418  M207 F    retract_feedrate_mm_s (float)
+ *  422  M207 Z    retract_zlift (float)
+ *  426  M208 S    retract_recover_length (float)
+ *  430  M208 W    retract_recover_length_swap (float)
+ *  434  M208 F    retract_recover_feedrate_mm_s (float)
  *
  * Volumetric Extrusion:
- *  426  M200 D    volumetric_enabled (bool)
- *  427  M200 T D  filament_size (float x4) (T0..3)
+ *  438  M200 D    volumetric_enabled (bool)
+ *  439  M200 T D  filament_size (float x4) (T0..3)
  *
  * Bilinear Bed Levelling
- *  445            grid_points_x (uint8 as set in firmware)
- *  446            grid_points_y (uint8 as set in firmware)
- *  447            grid_spacing (2 ints)
- *  451            grid_start (2 ints)
- *  455 G29 S3 XYZ z_values[][] (9x9=81 floats, by default)
+ *  457            grid_points_x (uint8 as set in firmware)
+ *  458            grid_points_y (uint8 as set in firmware)
+ *  459            grid_spacing (2 ints)
+ *  463            grid_start (2 ints)
+ *  467 G29 S3 XYZ z_values[][] (9x9=81 floats, by default)
  *
  *  779  This Slot is Available!
  *
@@ -262,22 +268,27 @@ void Config_Postprocess() {
     #endif
     EEPROM_WRITE(zprobe_zoffset);
 
-    // 9 floats for DELTA / Z_DUAL_ENDSTOPS
+    // 12 floats for DELTA / Z_DUAL_ENDSTOPS
     #if ENABLED(DELTA)
       EEPROM_WRITE(endstop_adj);               // 3 floats
       EEPROM_WRITE(delta_radius);              // 1 float
       EEPROM_WRITE(delta_diagonal_rod);        // 1 float
       EEPROM_WRITE(delta_segments_per_second); // 1 float
+
       EEPROM_WRITE(delta_diagonal_rod_trim_tower_1);  // 1 float
       EEPROM_WRITE(delta_diagonal_rod_trim_tower_2);  // 1 float
       EEPROM_WRITE(delta_diagonal_rod_trim_tower_3);  // 1 float
+
+      EEPROM_WRITE(delta_angle_trim_tower_1);  // 1 float
+      EEPROM_WRITE(delta_angle_trim_tower_2);  // 1 float
+      EEPROM_WRITE(delta_angle_trim_tower_3);  // 1 float
     #elif ENABLED(Z_DUAL_ENDSTOPS)
       EEPROM_WRITE(z_endstop_adj);            // 1 float
       dummy = 0.0f;
-      for (uint8_t q = 8; q--;) EEPROM_WRITE(dummy);
+      for (uint8_t q = 11; q--;) EEPROM_WRITE(dummy);
     #else
       dummy = 0.0f;
-      for (uint8_t q = 9; q--;) EEPROM_WRITE(dummy);
+      for (uint8_t q = 12; q--;) EEPROM_WRITE(dummy);
     #endif
 
     #if DISABLED(ULTIPANEL)
@@ -484,6 +495,10 @@ void Config_Postprocess() {
         EEPROM_READ(delta_diagonal_rod_trim_tower_1);  // 1 float
         EEPROM_READ(delta_diagonal_rod_trim_tower_2);  // 1 float
         EEPROM_READ(delta_diagonal_rod_trim_tower_3);  // 1 float
+
+        EEPROM_READ(delta_angle_trim_tower_1);  // 1 float
+        EEPROM_READ(delta_angle_trim_tower_2);  // 1 float
+        EEPROM_READ(delta_angle_trim_tower_3);  // 1 float
       #elif ENABLED(Z_DUAL_ENDSTOPS)
         EEPROM_READ(z_endstop_adj);
         dummy = 0.0f;
@@ -691,6 +706,9 @@ void Config_ResetDefault() {
     delta_diagonal_rod_trim_tower_1 = DELTA_DIAGONAL_ROD_TRIM_TOWER_1;
     delta_diagonal_rod_trim_tower_2 = DELTA_DIAGONAL_ROD_TRIM_TOWER_2;
     delta_diagonal_rod_trim_tower_3 = DELTA_DIAGONAL_ROD_TRIM_TOWER_3;
+    delta_angle_trim_tower_1 = DELTA_ANGLE_TRIM_TOWER_1;
+    delta_angle_trim_tower_2 = DELTA_ANGLE_TRIM_TOWER_2;
+    delta_angle_trim_tower_3 = DELTA_ANGLE_TRIM_TOWER_3;
   #elif ENABLED(Z_DUAL_ENDSTOPS)
     z_endstop_adj = 0;
   #endif
@@ -929,9 +947,15 @@ void Config_ResetDefault() {
       SERIAL_ECHOPAIR("  M665 L", delta_diagonal_rod);
       SERIAL_ECHOPAIR(" R", delta_radius);
       SERIAL_ECHOPAIR(" S", delta_segments_per_second);
+
       SERIAL_ECHOPAIR(" A", delta_diagonal_rod_trim_tower_1);
       SERIAL_ECHOPAIR(" B", delta_diagonal_rod_trim_tower_2);
       SERIAL_ECHOPAIR(" C", delta_diagonal_rod_trim_tower_3);
+
+      SERIAL_ECHOPAIR(" I", delta_angle_trim_tower_1);
+      SERIAL_ECHOPAIR(" J", delta_angle_trim_tower_1);
+      SERIAL_ECHOPAIR(" K", delta_angle_trim_tower_1);
+
       SERIAL_EOL;
     #elif ENABLED(Z_DUAL_ENDSTOPS)
       CONFIG_ECHO_START;

@@ -651,6 +651,16 @@
     #ifndef DELTA_DIAGONAL_ROD_TRIM_TOWER_3
       #define DELTA_DIAGONAL_ROD_TRIM_TOWER_3 0.0
     #endif
+
+    #ifndef DELTA_ANGLE_TRIM_TOWER_1
+      #define DELTA_ANGLE_TRIM_TOWER_1 0.0
+    #endif
+    #ifndef DELTA_ANGLE_TRIM_TOWER_2
+      #define DELTA_ANGLE_TRIM_TOWER_2 0.0
+    #endif
+    #ifndef DELTA_ANGLE_TRIM_TOWER_3
+      #define DELTA_ANGLE_TRIM_TOWER_3 0.0
+    #endif
   #endif
 
   /**
