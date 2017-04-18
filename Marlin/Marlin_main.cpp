@@ -6350,6 +6350,24 @@ inline void gcode_M206() {
         #endif
       }
     }
+
+	/*
+		These are handled by M665, but for compatability with Rich Cattel's
+		fork handle them here as well. Note that the ABC and IJK are swapped
+		here vs M665.
+	*/
+    if (code_seen('I')) delta_diagonal_rod_trim_tower_1 = code_value_linear_units();
+    if (code_seen('J')) delta_diagonal_rod_trim_tower_2 = code_value_linear_units();
+    if (code_seen('K')) delta_diagonal_rod_trim_tower_3 = code_value_linear_units();
+	if (code_seen('A')) delta_angle_trim_tower_1 = code_value_float();
+	if (code_seen('B')) delta_angle_trim_tower_2 = code_value_float();
+	if (code_seen('C')) delta_angle_trim_tower_3 = code_value_float();
+    if (code_seen('R')) delta_radius = code_value_linear_units();
+    if (code_seen('D')) delta_diagonal_rod = code_value_linear_units();
+	// if (code_seen('H')) base_home_pos[Z_AXIS] = code_value_linear_units();
+
+    recalc_delta_settings(delta_radius, delta_diagonal_rod);
+
     #if ENABLED(DEBUG_LEVELING_FEATURE)
       if (DEBUGGING(LEVELING)) {
         SERIAL_ECHOLNPGM("<<< gcode_M666");
